@@ -1,0 +1,24 @@
+{% extends 'base_generic.html' %}
+{% block title %}
+    Leads list
+{% endblock %}
+
+{% block head_css %}
+    <style>
+        .lead-list {
+            padding: 10px 5px;
+            margin: 10px 5px;
+            background: #f6f6f6;
+            width: 100%;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    {% for lead in leads %}
+        <div class = "lead-list">
+            <a href="{% url 'leads:leads_detail' pk=lead.id %}">{{ lead.first_name }} {{ lead.last_name }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
