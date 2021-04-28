@@ -16,9 +16,14 @@
 {% endblock %}
 
 {% block body %}
+    <a href="{% url 'leads:leads_list' %}"> Go to Lead List </a>
+    <hr />
     <div class="lead-detail">
         <h3> Name: {{ lead.first_name }} {{ lead.last_name }} </h3>
         <h4> Age: {{ lead.age }} </h4>
         <h5> Agent: {{ lead.agent }} </h5>
+        <a href="{% url 'leads:leads_update' pk=lead.id %}"> Update informations </a>
+        <br />
+        <a href="{% url 'leads:leads_delete' pk=lead.id %}"> Delete Lead </a>
     </div>
 {% endblock %}

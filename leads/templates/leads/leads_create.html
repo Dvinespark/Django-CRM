@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}
+    Create Lead
+{% endblock %}
+
+{% block body %}
+    <h1> Create New Lead </h1>
+    <hr />
+    <form method="post" action='.'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" value="submit">Submit </button>
+    </form>
+    <hr />
+{% endblock %}

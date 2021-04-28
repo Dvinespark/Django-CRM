@@ -16,6 +16,8 @@
 {% endblock %}
 
 {% block body %}
+    <h2> List of Leads </h2>
+    <hr />
     {% for lead in leads %}
         <div class = "lead-list">
             <a href="{% url 'leads:leads_detail' pk=lead.id %}">{{ lead.first_name }} {{ lead.last_name }}</a>

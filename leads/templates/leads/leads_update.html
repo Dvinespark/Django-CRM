@@ -1,0 +1,19 @@
+
+{% extends 'base_generic.html' %}
+
+{% block title %}
+    Update Lead
+{% endblock %}
+
+{% block body %}
+    <a href="{% url 'leads:leads_list' %}"> Go to Lead List </a>
+    <hr />
+    <h1> Update Lead {{lead.first_name}} {{lead.last_name}} </h1>
+    <hr />
+    <form method="post" action=''>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" value="submit">Submit </button>
+    </form>
+    <hr />
+{% endblock %}
