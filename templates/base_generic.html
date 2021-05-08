@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,6 +9,9 @@
         </title>
             {% block head_css %}
             {% endblock %}
+        <link href="{% static 'leads/css/index.css' %}" rel="stylesheet" />
+        <script src="{% static 'leads/scripts/index.js'%}"></script>
+
     </head>
     <body>
         <div class="container">

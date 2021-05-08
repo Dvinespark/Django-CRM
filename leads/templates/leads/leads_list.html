@@ -17,6 +17,7 @@
 
 {% block content %}
     <h2> List of Leads </h2>
+    <a href="{% url 'leads:leads_create' %}"> Create Leads</a>
     <hr />
     {% for lead in leads %}
         <div class = "lead-list">
