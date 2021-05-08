@@ -1,8 +1,24 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.http import HttpResponse
 from .models import Lead, Agent
 from .forms import LeadForm, LeadModelForm
 # Create your views here.
+
+
+###################### class based views demonstration starts here ##################
+
+class LandingPageView(TemplateView):
+    template_name = "landing_page.html"
+
+
+class LeadListView(ListView):
+    queryset = Lead.objects.all()
+    # model = Lead
+    template_name = "leads/leads_list.html"
+    # default context object passed is "object_list" --to override this
+    context_object_name = 'leads'
+
 
 def leads_list(request):
     '''
@@ -14,6 +30,13 @@ def leads_list(request):
     }
     
     return render(request, "leads/leads_list.html", context=context)
+
+
+class LeadDetailView(DetailView):
+    queryset = Lead.objects.all()
+    context_object_name = "lead"
+    template_name = "leads/leads_detail.html"
+
 
 def leads_detail(request, pk):
     '''
@@ -55,6 +78,14 @@ def leads_detail(request, pk):
 #   using forms.ModelForm
 
 
+class LeadCreateView(CreateView):
+    form_class = LeadModelForm
+    template_name = "leads/leads_create.html"
+
+    def get_success_url(self):
+        return reverse("leads:leads_list")
+
+
 def leads_create(request):
     '''
         creates lead    
@@ -71,6 +102,14 @@ def leads_create(request):
         'form': form
     }
     return render(request, 'leads/leads_create.html', context)
+
+class LeadUpdateView(UpdateView):
+    template_name = "leads/leads_update.html"
+    queryset = Lead.objects.all()
+    form_class = LeadModelForm
+
+    def get_success_url(self):
+        return reverse("leads:leads_list")
 
 def leads_update(request, pk):
     '''
@@ -90,6 +129,13 @@ def leads_update(request, pk):
         'lead': lead
     }
     return render(request, 'leads/leads_update.html', context)
+
+class LeadDeleteView(DeleteView):
+    template_name = 'leads/leads_delete.html'
+    queryset = Lead.objects.all()
+
+    def get_success_url(self):
+        return reverse("leads:leads_list")
 
 def leads_delete(request, pk):
     '''

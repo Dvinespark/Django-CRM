@@ -1,0 +1,6 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <p> Welcome to Django CRM </p>
+    <a href="{% url 'leads:leads_list' %}"> Take me to the leads </a>
+{% endblock %}
