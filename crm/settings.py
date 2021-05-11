@@ -130,7 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom Settings all go here
 AUTH_USER_MODEL = 'leads.User'
-
+LOGIN_REDIRECT_URL = "/leads"
+LOGOUT_REDIRECT_URL = "/"
 
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'    # for debug purpose

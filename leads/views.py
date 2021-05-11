@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views import generic
 from django.http import HttpResponse
 from .models import Lead, Agent
-from .forms import LeadForm, LeadModelForm
+from .forms import LeadForm, LeadModelForm, CustomUserCreationForm
 from django.conf import settings
 from django.core.mail import send_mail
 # Create your views here.
@@ -10,11 +10,25 @@ from django.core.mail import send_mail
 
 ###################### class based views demonstration starts here ##################
 
-class LandingPageView(TemplateView):
+class SignUpView(generic.CreateView):
+    template_name = 'leads/leads_signup.html'
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse('login')
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super(SignUpView, self).get_context_data(**kwargs)
+    #     context['user_create'] = context['form']
+    #     return context
+
+
+
+class LandingPageView(generic.TemplateView):
     template_name = "landing_page.html"
 
 
-class LeadListView(ListView):
+class LeadListView(generic.ListView):
     queryset = Lead.objects.all()
     # model = Lead
     template_name = "leads/leads_list.html"
@@ -34,7 +48,7 @@ def leads_list(request):
     return render(request, "leads/leads_list.html", context=context)
 
 
-class LeadDetailView(DetailView):
+class LeadDetailView(generic.DetailView):
     queryset = Lead.objects.all()
     context_object_name = "lead"
     template_name = "leads/leads_detail.html"
@@ -80,7 +94,7 @@ def leads_detail(request, pk):
 #   using forms.ModelForm
 
 
-class LeadCreateView(CreateView):
+class LeadCreateView(generic.CreateView):
     form_class = LeadModelForm
     template_name = "leads/leads_create.html"
 
@@ -114,7 +128,7 @@ def leads_create(request):
     }
     return render(request, 'leads/leads_create.html', context)
 
-class LeadUpdateView(UpdateView):
+class LeadUpdateView(generic.UpdateView):
     template_name = "leads/leads_update.html"
     queryset = Lead.objects.all()
     form_class = LeadModelForm
@@ -141,7 +155,7 @@ def leads_update(request, pk):
     }
     return render(request, 'leads/leads_update.html', context)
 
-class LeadDeleteView(DeleteView):
+class LeadDeleteView(generic.DeleteView):
     template_name = 'leads/leads_delete.html'
     queryset = Lead.objects.all()
 
