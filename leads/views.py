@@ -5,6 +5,8 @@ from .models import Lead, Agent
 from .forms import LeadForm, LeadModelForm, CustomUserCreationForm
 from django.conf import settings
 from django.core.mail import send_mail
+
+
 # Create your views here.
 
 
@@ -16,12 +18,11 @@ class SignUpView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('login')
-    
+
     # def get_context_data(self, **kwargs):
     #     context = super(SignUpView, self).get_context_data(**kwargs)
     #     context['user_create'] = context['form']
     #     return context
-
 
 
 class LandingPageView(generic.TemplateView):
@@ -44,7 +45,7 @@ def leads_list(request):
     context = {
         'leads': leads
     }
-    
+
     return render(request, "leads/leads_list.html", context=context)
 
 
@@ -64,6 +65,7 @@ def leads_detail(request, pk):
     }
     return render(request, 'leads/leads_detail.html', context=context)
 
+
 # using forms.Form
 
 # def leads_create(request):
@@ -74,7 +76,7 @@ def leads_detail(request, pk):
 #     agent = Agent.objects.first()
 #     if request.method == "POST":
 #         form = LeadForm(request.POST)
-        
+
 #         if form.is_valid():
 #             cleaned_data = form.cleaned_data
 #             print(cleaned_data)
@@ -100,7 +102,7 @@ class LeadCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse("leads:leads_list")
-    
+
     def form_valid(self, form):
         send_mail(
             "Test message from gmail",
@@ -118,7 +120,7 @@ def leads_create(request):
     form = LeadModelForm()
     if request.method == "POST":
         form = LeadModelForm(request.POST)
-        
+
         if form.is_valid():
             form.save()
             return redirect('leads:leads_list')
@@ -128,6 +130,7 @@ def leads_create(request):
     }
     return render(request, 'leads/leads_create.html', context)
 
+
 class LeadUpdateView(generic.UpdateView):
     template_name = "leads/leads_update.html"
     queryset = Lead.objects.all()
@@ -136,6 +139,7 @@ class LeadUpdateView(generic.UpdateView):
     def get_success_url(self):
         return reverse("leads:leads_list")
 
+
 def leads_update(request, pk):
     '''
         updates lead
@@ -143,8 +147,8 @@ def leads_update(request, pk):
     lead = Lead.objects.get(id=pk)
     form = LeadModelForm(instance=lead)
     if request.method == "POST":
-        form = LeadModelForm(instance=lead,data=request.POST)
-        
+        form = LeadModelForm(instance=lead, data=request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('leads:leads_list')
@@ -155,12 +159,14 @@ def leads_update(request, pk):
     }
     return render(request, 'leads/leads_update.html', context)
 
+
 class LeadDeleteView(generic.DeleteView):
     template_name = 'leads/leads_delete.html'
     queryset = Lead.objects.all()
 
     def get_success_url(self):
         return reverse("leads:leads_list")
+
 
 def leads_delete(request, pk):
     '''
